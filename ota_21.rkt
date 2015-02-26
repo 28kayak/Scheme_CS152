@@ -21,7 +21,9 @@ solution by given parameters a, b, and c.
  If there is, it construct a dot-pair list 
 and put the real number solutions in to the list |#
 (define (quadratic_solution a b c)
-  (if (< (* b b) (*(* 4 a)c))
+  (define bb (* b b))
+  (define 4ac (*(* 4 a)c))
+  (if (< bb 4ac)
       "No solution"
       (cons (x1 a b c) (x2 a b c)))
 );define 

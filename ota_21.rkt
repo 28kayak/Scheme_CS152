@@ -1,35 +1,46 @@
 #lang racket
-#|This implicit function named x1 is to calculate 
-x1 = (-b + sqrt(b^2 - 4ac))/(2a)
-|#
-(define (x1 a b c) 
-(/ (+ (* b -1) (sqrt (-(* b b) (*(* 4 a)c))) ) (* 2 a))
+#|this program is to calculate two quodratic_solution with given parameters a,b,and c|#
+#|From here, define all parts of valiables we need to apply quodratic formula|#
+(define (square b) (* b b));define b^2
+(define (-b b) (* b -1));define-negative_b
+(define (discriminant a b c) 
+  (-(square b) (*(* 4 a)c))
+);define-discriminant 
+
+#|calculate denominator of the quodratic formula|#
+(define (denominator a) (* 2 a));define-denominator 
+
+
+(define (numerator+ a b c) 
+  (+ (-b b) (sqrt(discriminant a b c)))
+);define-numerator+
+
+(define (numerator- a b c) 
+  (- (-b b) (sqrt(discriminant a b c)))
+);define-numerator-
+
+
+
+
+(define (x1 a b c)
+(/ (numerator+ a b c) (denominator a) )  
 );define 
-;(x1 1 5 -6)
-
-#|This implicit function named x1 is to calculate 
-x2 = (-b - sqrt(b^2 - 4ac))/(2a)
-|#
-(define (x2 a b c) 
-(/ (- (* b -1) (sqrt (-(* b b) (*(* 4 a)c))) ) (* 2 a))
+(define (x2 a b c)
+  (/ (numerator- a b c) (denominator a) )  
 );define 
-;(x2 1 5 -6) 
+(define (compDiscriminant a b c)
+  (< (discriminant a b c) 0)
+);define-compDiscriminant 
+;(compDiscriminant 1 5 -6)
 
-#|this explicit function named quadratic_solution has two main tasks. 
-The first is to determine if there is real number 
-solution by given parameters a, b, and c. 
- If there is, it construct a dot-pair list 
-and put the real number solutions in to the list |#
-(define (quadratic_solution a b c)
-  (define bb (* b b))
-  (define 4ac (*(* 4 a)c))
-  (if (< bb 4ac)
-      "No solution"
-      (cons (x1 a b c) (x2 a b c)))
+
+
+(define (findQudraticSolution a b c)
+  (if (compDiscriminant a b c) 
+      "No Real Number Solution" ; in case of true
+      (cons (x1 a b c) (x2 a b c)));if-end
 );define 
 
-
-#|Here we call explicit function quadratic_solution 3times with example parameters|#
-(quadratic_solution 2 3 3)
-(quadratic_solution 1 5 -6)
-(quadratic_solution 1 -2 1)
+(findQudraticSolution 1 5 -6)
+(findQudraticSolution 2 3 3)
+(findQudraticSolution 1 -2 1)
